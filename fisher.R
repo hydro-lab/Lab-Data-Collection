@@ -96,12 +96,6 @@ z$Method <- "Thermometer_hygrometer"
 level1 <- z
 write_csv(level1, "/Users/davidkahler/Documents/R/Lab-Data-Collection/FisherHall.csv", append = TRUE)
 
-thisMorning <- ymd_h(paste0(Sys.Date(), "T08"), tz = "US/Eastern")
-yesterday <- y %>%
-     filter(time_et <= )
-
-ggplot(yesterday) +
-     geom_line(aes(x = time_et, y = AirTC_Avg))
-
-
+# NOTE:
+# This code will not produce plots for the website, only the data for upload.
 
