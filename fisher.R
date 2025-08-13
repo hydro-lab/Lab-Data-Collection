@@ -11,7 +11,7 @@ library(latex2exp)
 x <- read_csv("Fisher711_FisherMet.dat", skip = 4, col_names = FALSE)
 t <- read_csv("FisherHall_download.csv") # all in UTC
 previousDownload <- t$RECORD[nrow(t)]
-download <- data.frame(Sys.Date(), x$X1[nrow(y)], x$X2[nrow(x)])
+download <- data.frame(Sys.Date(), x$X1[nrow(x)], x$X2[nrow(x)])
 write_csv(download, "FisherHall_download.csv", append = TRUE)
 
 y <- x %>%
