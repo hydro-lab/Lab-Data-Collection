@@ -35,9 +35,11 @@ y <- x %>%
 # PIVOT TO LONGER FORMAT, ADD SITE, SOURCE, and QC flag
 # LEVEL 0 is raw data
 
-z <- pivot_longer(y, cols = c(AirTC_Avg,AirTC_Std,RH,BV_BP_Avg,SlrW_Avg,Rain_mm_Tot),
+z <- y %>%
+     pivot_longer(cols = c(AirTC_Avg,AirTC_Std,RH,BV_BP_Avg,SlrW_Avg,Rain_mm_Tot),
                   names_to = "Variable",
-                  values_to = "Value")
+                  values_to = "Value") %>%
+     filter(is.na(Value) == FALSE)
 z$Site <- "Duquesne_FisherHall"
 z$Source <- "DuqSciEng"
 z$QC <- "Level0"
@@ -75,12 +77,10 @@ for (i in 1:n) {
           y$AirTC_Avg[i] <- -9999
           print(paste0("Temperature above valid range.  Check UTC: ", y$time_utc[i]))
      } else if ((i > 4) & (i < (n-4))) {
-          s <- 0 # standard deviation
-          for (j in (j-4):(j+4)) {
-               s <- max(c(max(y$AirTC_Std[(i-4):(i-1)], na.rm = TRUE), max(y$AirTC_Std[(i+1):(i+4)], na.rm = TRUE)))
-               if ( ( y$AirTC_Avg[i] > t+(8*s) ) | ( y$AirTC_Avg[i] < t-(8*s) ) ) {
-                    print(paste0("Spike detected; manual intervention needed at UTC: ", z$time_utc[i]))
-               }
+          s <- max(c(max(y$AirTC_Std[(i-4):(i-1)], na.rm = TRUE), max(y$AirTC_Std[(i+1):(i+4)], na.rm = TRUE)))
+          t <- mean(c(mean(y$AirTC_Avg[(i-4):(i-1)], na.rm = TRUE), mean(y$AirTC_Avg[(i+1):(i+4)], na.rm = TRUE)))
+          if ( ( y$AirTC_Avg[i] > t+(6*s) ) | ( y$AirTC_Avg[i] < t-(6*s) ) ) {
+               print(paste0("Spike detected; manual intervention needed i = ", i, " at UTC: ", y$time_utc[i]))
           }
      }
 }
@@ -89,13 +89,16 @@ z <- y %>%
      select(AirTC_Avg, time_utc, unix_utc, time_et, utc_offset) %>%
      pivot_longer(cols = AirTC_Avg,
                   names_to = "Variable",
-                  values_to = "Value")
+                  values_to = "Value") %>%
+     filter(is.na(Value) == FALSE)
 z$Site <- "Duquesne_FisherHall"
 z$Source <- "DuqSciEng"
 z$QC <- "Level1"
 z$Method <- "Thermometer_hygrometer"
 
-level1 <- z
+level1 <- z %>%
+     mutate(time_utc = as.character(time_utc)) %>% 
+     mutate(time_et = as.character(time_et))
 write_csv(level1, "/Users/davidkahler/Documents/R/Lab-Data-Collection/FisherHall.csv", append = TRUE)
 
 # NOTE:
