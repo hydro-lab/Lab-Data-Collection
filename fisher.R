@@ -55,11 +55,13 @@ for (i in 1:n) {
      else if (z$Variable[i]=="Rain_mm_Tot") {z$Method[i] = "Heated_tipping_bucket"}
 }
 
-level0 <- z
+level0 <- z %>%
+     mutate(time_utc = as.character(time_utc)) %>% 
+     mutate(time_et = as.character(time_et))
 write_csv(level0, "/Users/davidkahler/Documents/R/Lab-Data-Collection/FisherHall.csv", append = TRUE)
 
 # PERFORM QC ON SENSORS: LIMITS, SPIKES, 
-# LEVEL 1 is minimum QC
+# LEVEL 1 is minimal QC
 
 n <- nrow(y)
 for (i in 1:n) {
