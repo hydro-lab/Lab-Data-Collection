@@ -9,6 +9,7 @@ git add FisherHall.csv
 git add FISHERprecip.jpg
 git add FISHERpres.jpg
 git add FISHERrh.jpg
+git add FISHERrad.jpg
 git add FISHERtemp.jpg
 
 git commit -m "data update"
