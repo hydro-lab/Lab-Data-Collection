@@ -15,9 +15,9 @@ x <- x %>%
             Variable = X5,
             Value = X6)
 
-this <- week(Sys.Date())
+this <- isoweek(Sys.Date())
 lastweek <- x %>%
-     mutate(w = week(time_et)) %>% 
+     mutate(w = isoweek(time_et)) %>% 
      filter(w == (this-1)) %>% 
      mutate(d = as_date(time_et)) %>%
      select(time_et,d,Variable,Value)
@@ -51,6 +51,17 @@ bp <- ggplot(bp) +
      scale_x_datetime() +
      xlab("Date") +
      ylab("Barometric Pressure (hPa)") +
+     theme(panel.background = element_rect(fill = "white", colour = "black")) +
+     theme(aspect.ratio = 0.3) +
+     theme(axis.text = element_text(face = "plain", size = 12), axis.title = element_text(face = "plain", size = 14))
+ggsave("FISHERpres.jpg", plot = bp, device = "jpeg", dpi = 72, width = 20, height = 10, units = "cm")
+
+srad <- filter(lastweek, Variable == "SlrW_Avg")
+srad <- ggplot(srad) + 
+     geom_line(aes(x=time_et,y=Value)) + 
+     scale_x_datetime() +
+     xlab("Date") +
+     ylab(TeX('Solar Radiation $(W/m^2)$')) +
      theme(panel.background = element_rect(fill = "white", colour = "black")) +
      theme(aspect.ratio = 0.3) +
      theme(axis.text = element_text(face = "plain", size = 12), axis.title = element_text(face = "plain", size = 14))
