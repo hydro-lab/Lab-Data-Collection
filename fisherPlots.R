@@ -65,7 +65,7 @@ srad <- ggplot(srad) +
      theme(panel.background = element_rect(fill = "white", colour = "black")) +
      theme(aspect.ratio = 0.3) +
      theme(axis.text = element_text(face = "plain", size = 12), axis.title = element_text(face = "plain", size = 14))
-ggsave("FISHERrad.jpg", plot = bp, device = "jpeg", dpi = 72, width = 20, height = 10, units = "cm")
+ggsave("FISHERrad.jpg", plot = srad, device = "jpeg", dpi = 72, width = 20, height = 10, units = "cm")
 
 precip <- lastweek %>%
      filter(Variable == "Rain_mm_Tot") %>%
