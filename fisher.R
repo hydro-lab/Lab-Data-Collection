@@ -50,6 +50,7 @@ for (i in 1:n) {
      if (z$Variable[i]=="AirTC_Avg") {z$Method[i] = "Thermometer_hygrometer"}
      else if (z$Variable[i]=="AirTC_Std") {z$Method[i] = "Thermometer_hygrometer"}
      else if (z$Variable[i]=="RH") {z$Method[i] = "Thermometer_hygrometer"}
+     else if (z$Variable[i]=="BV_BP_Avg") {z$Method[i] = "Barometric_pressure_transducer"}
      else if (z$Variable[i]=="SlrW_Avg") {z$Method[i] = "Thermopile_pyranometer"}
      else if (z$Variable[i]=="SlrW_Std") {z$Method[i] = "Thermopile_pyranometer"}
      else if (z$Variable[i]=="CS320_Temp_Avg") {z$Method[i] = "Thermopile_pyranometer"}
